@@ -2,6 +2,7 @@
 // @name           lighthouse-tag-cloud
 // @namespace      http://magnificent-tears.com
 // @include        https://*.lighthouseapp.com/*
+// @version        2
 // ==/UserScript==
 
 (function(){
@@ -18,11 +19,38 @@ setTimeout(function(){
 
   if( url_all_tags.test(document.location.href) ){
     try {
-      var tags = get_cloud().innerHTML.replace(/\bhref="[^"]+"/g, 'href="javascript:alert(\'no clicking\')"');
+      // TODO: tlist2.maininput.autoShow('idea');
+      var tags = get_cloud().innerHTML.replace(/\bhref="[^"]+"/g, 'href="javascript://" onclick="cached_tag_cloud_click(this);"');
       if( tags )
         localStorage.setItem(name, tags);
     }catch(e){ if(console) console.error(name + ':' + e); }
   }else{
+
+    var script = document.createElement('script');
+    var scripttxt = ''+
+'   function cached_tag_cloud_click(link){  '+
+'     var tags, txt, inp;                   '+
+'     try {                                 '+
+'       tags = tlist2;                      '+
+'       if(!tags)throw("var not found");    '+
+'       txt = link.innerHTML;               '+
+'       inp = tags.maininput.firstChild;    '+
+'       inp.focus();                        '+
+'       inp.value = txt;                    '+
+'       tags.autoShow(txt);                 '+
+'     }catch(e){                            '+
+'       alert("no clicking:\\n\\n" + e);    '+
+'     }                                     '+
+'   };                                      '+
+''    ;
+    script.setAttribute('type', 'text/javascript');
+    //script.setAttribute('data:,', encodeURIComponent(scripttxt));
+    script.textContent = scripttxt;
+    //setTimeout(function(){
+      document.body.appendChild(script);
+      document.body.removeChild(script);
+    //}, 0);
+
       var alltags = localStorage.getItem(name)
       if( !alltags )
         alltags = 'Tags not found.  Please visit overview page to refresh list.';
