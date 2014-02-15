@@ -1,0 +1,29 @@
+# lighthouse-user-scripts
+
+Sadly I don't use [Lighthouse](https://lighthouseapp.com) anymore
+but these user scripts worked nicely when I did.
+
+As always: patches welcome.
+
+## lighthouse-new-ticket-window.user.js
+
+Change the "Create a new ticket" button so that it opens in a new window.
+
+## lighthouse-syntax-highlighter.user.js
+
+Syntax highlight code blocks by using a web server on localhost.
+Obviously this requires some local setup
+(or a patch to make it work with other sources).
+
+## lighthouse-tag-cloud.user.js
+
+When lighthouse implemented the tag auto-complete,
+they removed the tag cloud.
+This meant we had to remember all the possible tags
+instead of being able to review existing tags.
+So this captures the tag cloud when viewing a page that has it
+and then creates a tag cloud on ticket editing pages.
+
+---
+
+This is not endorsed by or affiliated with Lighthouse.
